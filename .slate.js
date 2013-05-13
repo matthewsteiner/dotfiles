@@ -5,15 +5,23 @@ var getModalCommand = function(key) {
   return key + ':' + modal;
 };
 
+var screenSizeX = function() {
+  return slate.screen().rect().width;
+}
+
+var screenSizeY = function() {
+  return slate.screen().rect().height;
+}
+
 var operations = {
   pushRight: slate.operation('push', {
     'direction' : 'right',
-    'style' : 'bar-resize:screenSizeX/3'
+    'style' : 'bar-resize:screenSizeX/2'
   }),
 
   pushLeft: slate.operation('push', {
     'direction' : 'left',
-    'style' : 'bar-resize:screenSizeX/3'
+    'style' : 'bar-resize:screenSizeX/2'
   }),
 
   pushTop: slate.operation('push', {
@@ -24,6 +32,30 @@ var operations = {
   pushBottom: slate.operation('push', {
     'direction' : 'bottom',
     'style' : 'bar-resize:screenSizeY/2'
+  }),
+
+  pushTopLeft: slate.operation('corner', {
+    'direction' : 'top-left',
+    'width' : screenSizeX() / 2,
+    'height' : screenSizeY() / 2
+  }),
+
+  pushTopRight: slate.operation('corner', {
+    'direction' : 'top-right',
+    'width' : screenSizeX() / 2,
+    'height' : screenSizeY() / 2
+  }),
+
+  pushBottomLeft: slate.operation('corner', {
+    'direction' : 'bottom-left',
+    'width' : screenSizeX() / 2,
+    'height' : screenSizeY() / 2
+  }),
+
+  pushBottomRight: slate.operation('corner', {
+    'direction' : 'bottom-right',
+    'width' : screenSizeX() / 2,
+    'height' : screenSizeY() / 2
   }),
 
   fullscreen: slate.operation('move', {
@@ -44,11 +76,15 @@ var getOperation = function(op) {
 
 // Set key bindings
 var bindings = {
+  'q': 'pushTopLeft',
   'w': 'pushTop',
+  'e': 'pushTopRight',
   'a': 'pushLeft',
   's': 'fullscreen',
   'd': 'pushRight',
-  'x': 'pushDown'
+  'z': 'pushBottomLeft',
+  'x': 'pushBottom',
+  'c': 'pushBottomRight'
 };
 
 var generateBindings = function() {
