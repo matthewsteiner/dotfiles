@@ -58,6 +58,38 @@ var operations = {
     'height' : screenSizeY() / 2
   }),
 
+  throwRight: slate.operation('throw', {
+    'screen' : 'right'
+  }),
+
+  throwLeft: slate.operation('throw', {
+    'screen' : 'left'
+  }),
+
+  throwRightFullscreen: [
+    slate.operation('throw', {
+      'screen' : 'right'
+    }),
+    slate.operation('move', {
+      'x' : 'screenOriginX',
+      'y' : 'screenOriginY',
+      'width' : 'screenSizeX',
+      'height' : 'screenSizeY'
+    })
+  ],
+
+  throwLeftFullscreen: [
+    slate.operation('throw', {
+      'screen' : 'left'
+    }),
+    slate.operation('move', {
+      'x' : 'screenOriginX',
+      'y' : 'screenOriginY',
+      'width' : 'screenSizeX',
+      'height' : 'screenSizeY'
+    })
+  ],
+
   fullscreen: slate.operation('move', {
     'x' : 'screenOriginX',
     'y' : 'screenOriginY',
@@ -68,7 +100,13 @@ var operations = {
 
 var getOperation = function(op) {
   var operation = function(win) {
-    return win.doOperation(operations[op]);
+    if ( _.isArray(operations[op]) ) {
+      _.each(operations[op], function(op) {
+        win.doOperation(op);
+      });
+    } else {
+      win.doOperation(operations[op]);
+    }
   };
 
   return operation;
@@ -84,7 +122,11 @@ var bindings = {
   'd': 'pushRight',
   'z': 'pushBottomLeft',
   'x': 'pushBottom',
-  'c': 'pushBottomRight'
+  'c': 'pushBottomRight',
+  'left': 'throwLeft',
+  'right': 'throwRight',
+  '[': 'throwLeftFullscreen',
+  ']': 'throwRightFullscreen'
 };
 
 var generateBindings = function() {
