@@ -7,6 +7,6 @@ fi
 
 if [ -f $VIRTUALENVWRAPPER_PATH ]; then
   export WORKON_HOME=$HOME/.virtualenvs
-  source /usr/local/share/python/virtualenvwrapper.sh
+  source "$VIRTUALENVWRAPPER_PATH"
   export PIP_VIRTUALENV_BASE=$WORKON_HOME
 fi
