@@ -68,11 +68,7 @@ var operations = {
 
   throwRightFullscreen: [
     slate.operation('throw', {
-      'screen' : 'right'
-    }),
-    slate.operation('move', {
-      'x' : 'screenOriginX',
-      'y' : 'screenOriginY',
+      'screen' : 'right',
       'width' : 'screenSizeX',
       'height' : 'screenSizeY'
     })
@@ -80,11 +76,7 @@ var operations = {
 
   throwLeftFullscreen: [
     slate.operation('throw', {
-      'screen' : 'left'
-    }),
-    slate.operation('move', {
-      'x' : 'screenOriginX',
-      'y' : 'screenOriginY',
+      'screen' : 'left',
       'width' : 'screenSizeX',
       'height' : 'screenSizeY'
     })
