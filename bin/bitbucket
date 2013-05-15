@@ -1,0 +1,67 @@
+#!/bin/bash -e
+
+function bitbucket() {
+  local URL="https://$(git config remote.origin.url | sed 's/\.git//' | sed 's/https:\/\///' | sed 's/ssh:\/\///' | sed 's/git:\/\///' | sed 's/git@//' | tr ':' '/')"
+
+  if [ "$URL" != "${URL#https:\/\/bitbucket.org\/}" ]; then
+    case "$1" in
+      "")
+        URL="$URL"
+        _go
+        ;;
+      i|issues|-i|--issues)
+        if [[ -n $2 ]]
+        then
+          URL="$URL/issue/$2"
+        else
+          URL="$URL/issues"
+        fi
+        _go
+        ;;
+      p|pulls|-p|--pulls)
+        URL="$URL/pull-requests"
+        _go
+        ;;
+      w|wiki|-w|--wiki)
+        URL="$URL/wiki"
+        _go
+        ;;
+      h|help|-h|--help)
+        _usage
+        ;;
+      *)
+        _usage
+        ;;
+    esac
+  else
+    case "$1" in
+      h|help|-h|--help)
+        _usage
+        ;;
+      *)
+        echo "Not a valid bitbucket repository"
+        ;;
+    esac
+
+  fi
+}
+
+_usage() {
+  cat <<EOF
+usage: bitbucket [<command>] [<number>]
+
+The following commands are performed on the current project.
+
+Available commands:
+
+  -i --issues [<number>] Open issues, optionally pass a number to open a specific issue
+  -p --pulls             Open pull requests, optionally pass a number to open a specific pull request
+  -w --wiki              Open wiki
+
+When no argument is supplied the main project page will be opened.
+EOF
+}
+
+_go() {
+  open "$URL"
+}

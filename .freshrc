@@ -7,3 +7,4 @@ fresh jasoncodes/dotfiles shell/aliases/rails.sh
 fresh shell/\*
 fresh shell/aliases/\*
 fresh shell/config/\*
+fresh bin/\*
