@@ -17,7 +17,6 @@ Clone the repository
 Symlink some configuration
 
     ln ~/.dotfiles/.freshrc ~/.freshrc
-    ln ~/.dotfiles/.slate.js ~/.slate.js # Only needed if slate is installed
 
 Run fresh
 
