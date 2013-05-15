@@ -1,54 +1,72 @@
 #!/bin/bash -e
 
-function bitbucket() {
+function browse-repository() {
   local URL="https://$(git config remote.origin.url | sed 's/\.git//' | sed 's/https:\/\///' | sed 's/ssh:\/\///' | sed 's/git:\/\///' | sed 's/git@//' | tr ':' '/')"
 
-  if [ "$URL" != "${URL#https:\/\/bitbucket.org\/}" ]; then
+  if _browse_repository_is_bitbucket_repo "$URL" || _browse_repository_is_github_repo "$URL"
+  then
     case "$1" in
       "")
         URL="$URL"
-        _go
+        _browse_repository_go
         ;;
       i|issues|-i|--issues)
         if [[ -n $2 ]]
         then
-          URL="$URL/issue/$2"
+          if _browse_repository_is_bitbucket_repo "$URL"
+          then
+            URL="$URL/issue/$2"
+          else
+            URL="$URL/issues/$2"
+          fi
         else
           URL="$URL/issues"
         fi
-        _go
+        _browse_repository_go
         ;;
       p|pulls|-p|--pulls)
-        URL="$URL/pull-requests"
-        _go
+        if _is_bitbucket_repo "$URL"
+        then
+          URL="$URL/pull-requests"
+        else
+          URL="$URL/pulls"
+        fi
+        _browse_repository_go
         ;;
       w|wiki|-w|--wiki)
         URL="$URL/wiki"
-        _go
+        _browse_repository_go
         ;;
       h|help|-h|--help)
-        _usage
+        _browse_repository_usage
         ;;
       *)
-        _usage
+        _browse_repository_usage
         ;;
     esac
   else
     case "$1" in
       h|help|-h|--help)
-        _usage
+        _browse_repository_usage
         ;;
       *)
-        echo "Not a valid bitbucket repository"
+        echo "Not a valid bitbucket or github repository"
         ;;
     esac
-
   fi
 }
 
-_usage() {
+_browse_repository_is_bitbucket_repo() {
+  [ "$URL" != "${URL#https:\/\/bitbucket.org\/}" ]
+}
+
+_browse_repository_is_github_repo() {
+  [ "$URL" != "${URL#https:\/\/github.com\/}" ]
+}
+
+_browse_repository_usage() {
   cat <<EOF
-usage: bitbucket [<command>] [<number>]
+usage: browse-repository [<command>] [<number>]
 
 The following commands are performed on the current project.
 
@@ -62,6 +80,6 @@ When no argument is supplied the main project page will be opened.
 EOF
 }
 
-_go() {
+_browse_repository_go() {
   open "$URL"
 }

@@ -1,2 +1,2 @@
 alias sourcetree='open -a SourceTree'
-alias b='bitbucket'
+alias br='browse-repository'
