@@ -6,11 +6,15 @@ var getModalCommand = function(key) {
 };
 
 var screenSizeX = function() {
-  return slate.screen().rect().width;
+  if ( slate && slate.screen() && slate.screen().rect() ) {
+    return slate.screen().rect().width;
+  }
 }
 
 var screenSizeY = function() {
-  return slate.screen().rect().height;
+  if ( slate && slate.screen() && slate.screen().rect() ) {
+    return slate.screen().rect().height;
+  }
 }
 
 var operations = {
