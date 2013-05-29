@@ -1,40 +1,40 @@
 #!/bin/bash -e
 
-function browse-repository() {
-  local URL="https://$(git config remote.origin.url | sed 's/\.git//' | sed 's/https:\/\///' | sed 's/ssh:\/\///' | sed 's/git:\/\///' | sed 's/git@//' | tr ':' '/')"
+browse-repository() {
+  local url="https://$(git config remote.origin.url | sed 's/\.git//' | sed 's/https:\/\///' | sed 's/ssh:\/\///' | sed 's/git:\/\///' | sed 's/git@//' | tr ':' '/')"
 
-  if _browse_repository_is_bitbucket_repo "$URL" || _browse_repository_is_github_repo "$URL"
+  if _browse_repository_is_bitbucket_repo "$url" || _browse_repository_is_github_repo "$url"
   then
     case "$1" in
       "")
-        URL="$URL"
+        url="$url"
         _browse_repository_go
         ;;
       i|issues|-i|--issues)
         if [[ -n $2 ]]
         then
-          if _browse_repository_is_bitbucket_repo "$URL"
+          if _browse_repository_is_bitbucket_repo "$url"
           then
-            URL="$URL/issue/$2"
+            url="$url/issue/$2"
           else
-            URL="$URL/issues/$2"
+            url="$url/issues/$2"
           fi
         else
-          URL="$URL/issues"
+          url="$url/issues"
         fi
         _browse_repository_go
         ;;
       p|pulls|-p|--pulls)
-        if _is_bitbucket_repo "$URL"
+        if _is_bitbucket_repo "$url"
         then
-          URL="$URL/pull-requests"
+          url="$url/pull-requests"
         else
-          URL="$URL/pulls"
+          url="$url/pulls"
         fi
         _browse_repository_go
         ;;
       w|wiki|-w|--wiki)
-        URL="$URL/wiki"
+        url="$url/wiki"
         _browse_repository_go
         ;;
       h|help|-h|--help)
@@ -57,11 +57,11 @@ function browse-repository() {
 }
 
 _browse_repository_is_bitbucket_repo() {
-  [ "$URL" != "${URL#https:\/\/bitbucket.org\/}" ]
+  [ "$url" != "${url#https:\/\/bitbucket.org\/}" ]
 }
 
 _browse_repository_is_github_repo() {
-  [ "$URL" != "${URL#https:\/\/github.com\/}" ]
+  [ "$url" != "${url#https:\/\/github.com\/}" ]
 }
 
 _browse_repository_usage() {
@@ -81,5 +81,5 @@ EOF
 }
 
 _browse_repository_go() {
-  open "$URL"
+  open "$url"
 }
