@@ -83,3 +83,5 @@ EOF
 _browse_repository_go() {
   open "$url"
 }
+
+browse-repository "$@"
