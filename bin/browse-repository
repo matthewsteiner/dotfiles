@@ -3,17 +3,17 @@
 browse-repository() {
   local url="https://$(git config remote.origin.url | sed 's/\.git//' | sed 's/https:\/\///' | sed 's/ssh:\/\///' | sed 's/git:\/\///' | sed 's/git@//' | tr ':' '/')"
 
-  if _browse_repository_is_bitbucket_repo "$url" || _browse_repository_is_github_repo "$url"
+  if _is_bitbucket_repo "$url" || _is_github_repo "$url"
   then
     case "$1" in
       "")
         url="$url"
-        _browse_repository_go
+        _go
         ;;
       i|issues|-i|--issues)
         if [[ -n $2 ]]
         then
-          if _browse_repository_is_bitbucket_repo "$url"
+          if _is_bitbucket_repo "$url"
           then
             url="$url/issue/$2"
           else
@@ -22,7 +22,7 @@ browse-repository() {
         else
           url="$url/issues"
         fi
-        _browse_repository_go
+        _go
         ;;
       p|pulls|-p|--pulls)
         if _is_bitbucket_repo "$url"
@@ -31,23 +31,23 @@ browse-repository() {
         else
           url="$url/pulls"
         fi
-        _browse_repository_go
+        _go
         ;;
       w|wiki|-w|--wiki)
         url="$url/wiki"
-        _browse_repository_go
+        _go
         ;;
       h|help|-h|--help)
-        _browse_repository_usage
+        _usage
         ;;
       *)
-        _browse_repository_usage
+        _usage
         ;;
     esac
   else
     case "$1" in
       h|help|-h|--help)
-        _browse_repository_usage
+        _usage
         ;;
       *)
         echo "Not a valid bitbucket or github repository"
@@ -56,15 +56,15 @@ browse-repository() {
   fi
 }
 
-_browse_repository_is_bitbucket_repo() {
+_is_bitbucket_repo() {
   [ "$url" != "${url#https:\/\/bitbucket.org\/}" ]
 }
 
-_browse_repository_is_github_repo() {
+_is_github_repo() {
   [ "$url" != "${url#https:\/\/github.com\/}" ]
 }
 
-_browse_repository_usage() {
+_usage() {
   cat <<EOF
 usage: browse-repository [<command>] [<number>]
 
@@ -80,7 +80,7 @@ When no argument is supplied the main project page will be opened.
 EOF
 }
 
-_browse_repository_go() {
+_go() {
   open "$url"
 }
 
