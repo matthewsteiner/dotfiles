@@ -1,4 +1,4 @@
-export PATH=~/bin:/usr/local/bin:/usr/local/sbin:"$PATH"
+export PATH=~/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin:"$PATH"
 
 # PS1
 GIT_PS1_SHOWDIRTYSTATE=true
