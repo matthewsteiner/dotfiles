@@ -1,2 +1,1 @@
-# sublime
-export EDITOR='subl -w'
+export EDITOR='vim'
