@@ -16,7 +16,7 @@ Clone the repository
 
 Symlink some configuration
 
-    ln ~/.dotfiles/.freshrc ~/.freshrc
+    ln -s ~/.dotfiles/.freshrc ~/.freshrc
 
 Run fresh
 
